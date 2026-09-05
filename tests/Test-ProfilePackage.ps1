@@ -64,6 +64,7 @@ function Copy-Data {
 function New-TraversalArchive {
     param([Parameter(Mandatory)][string]$Path)
 
+    Add-Type -AssemblyName System.IO.Compression
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     $stream = [IO.File]::Open($Path, [IO.FileMode]::Create)
     try {

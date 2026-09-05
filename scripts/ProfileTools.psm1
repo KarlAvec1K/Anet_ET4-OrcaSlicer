@@ -512,6 +512,7 @@ function New-OrcaProfileBundle {
 
     $resolvedOutput = [IO.Path]::GetFullPath($OutputPath)
     [IO.Directory]::CreateDirectory((Split-Path -Parent $resolvedOutput)) | Out-Null
+    Add-Type -AssemblyName System.IO.Compression
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     $fileStream = [IO.File]::Open($resolvedOutput, [IO.FileMode]::Create, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
     try {
@@ -591,6 +592,7 @@ function Test-OrcaProfileBundle {
         return [pscustomobject]@{ Errors = @($errors); Warnings = @($warnings); PrinterCount = 0; ProcessCount = 0; FilamentCount = 0 }
     }
 
+    Add-Type -AssemblyName System.IO.Compression
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     try {
         $archive = [IO.Compression.ZipFile]::OpenRead((Resolve-Path -LiteralPath $Path).Path)
