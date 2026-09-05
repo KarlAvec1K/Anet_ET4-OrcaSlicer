@@ -186,6 +186,7 @@ foreach ($filamentEntry in $manifest.filaments) {
     $expected = $filamentExpectations[$filament.name]
     Assert-True ($null -ne $expected) "Known filament preset: $($filament.name)"
     Assert-True (-not $filament.ContainsKey('inherits')) "Filament is flattened: $($filament.name)"
+    Assert-True (([string]$filament.filament_notes).IndexOf(';') -lt 0) "Filament notes survive Orca import: $($filament.name)"
     Assert-Equal $expected.type $filament.filament_type[0] "Material type: $($filament.name)"
     Assert-Equal $expected.nozzle $filament.nozzle_temperature[0] "Nozzle temperature: $($filament.name)"
     Assert-Equal $expected.firstNozzle $filament.nozzle_temperature_initial_layer[0] "First-layer nozzle temperature: $($filament.name)"
