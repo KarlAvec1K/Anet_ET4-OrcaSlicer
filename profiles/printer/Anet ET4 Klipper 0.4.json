@@ -1,0 +1,225 @@
+{
+  "type": "machine",
+  "name": "Anet ET4 Klipper 0.4",
+  "from": "User",
+  "version": "2.4.0.1",
+  "instantiation": "true",
+  "printer_settings_id": "Anet ET4 Klipper 0.4",
+  "printer_model": "Anet ET4 Klipper",
+  "printer_variant": "0.4",
+  "printer_technology": "FFF",
+  "printer_structure": "i3",
+  "printer_notes": "Anet ET4, stock motion system and display MCU, Klipper host at 192.168.18.152, 0.4 mm nozzle, dual-drive Bowden extruder. Firmware owns Z offset, probing, adaptive mesh, purge, and end parking.",
+  "gcode_flavor": "klipper",
+  "host_type": "moonraker",
+  "printer_agent": "moonraker",
+  "print_host": "192.168.18.152",
+  "printhost_authorization_type": "key",
+  "printhost_ssl_ignore_revoke": "0",
+  "bbl_use_printhost": "0",
+  "printable_area": [
+    "0x0",
+    "220x0",
+    "220x220",
+    "0x220"
+  ],
+  "printable_height": "250",
+  "bed_exclude_area": [
+    "0x0"
+  ],
+  "bed_mesh_min": "10,10",
+  "bed_mesh_max": "180,180",
+  "bed_mesh_probe_distance": "42.5,42.5",
+  "adaptive_bed_mesh_margin": "10",
+  "bed_temperature_formula": "by_highest_temp",
+  "default_bed_type": "Textured PEI Plate",
+  "support_multi_bed_types": "0",
+  "bed_custom_model": "",
+  "bed_custom_texture": "",
+  "nozzle_diameter": [
+    "0.4"
+  ],
+  "min_layer_height": [
+    "0.08"
+  ],
+  "max_layer_height": [
+    "0.32"
+  ],
+  "nozzle_type": [
+    "undefine"
+  ],
+  "nozzle_height": "2.5",
+  "nozzle_hrc": "0",
+  "nozzle_volume": [
+    "0"
+  ],
+  "default_nozzle_volume_type": [
+    "Standard"
+  ],
+  "extruder_type": [
+    "Bowden"
+  ],
+  "extruder_colour": [
+    "#FCE94F"
+  ],
+  "extruder_offset": [
+    "0x0"
+  ],
+  "extruder_clearance_radius": "65",
+  "extruder_clearance_height_to_rod": "36",
+  "extruder_clearance_height_to_lid": "140",
+  "default_filament_profile": [
+    "ET4 Generic PLA"
+  ],
+  "default_print_profile": "ET4 0.20 Production",
+  "retraction_length": [
+    "2"
+  ],
+  "retraction_speed": [
+    "20"
+  ],
+  "deretraction_speed": [
+    "20"
+  ],
+  "retraction_minimum_travel": [
+    "1"
+  ],
+  "retract_before_wipe": [
+    "70%"
+  ],
+  "retract_when_changing_layer": [
+    "1"
+  ],
+  "retract_restart_extra": [
+    "0"
+  ],
+  "retract_length_toolchange": [
+    "2"
+  ],
+  "retract_restart_extra_toolchange": [
+    "0"
+  ],
+  "retract_lift_above": [
+    "0"
+  ],
+  "retract_lift_below": [
+    "249"
+  ],
+  "retract_lift_enforce": [
+    "All Surfaces"
+  ],
+  "z_hop": [
+    "0.4"
+  ],
+  "z_hop_types": [
+    "Normal Lift"
+  ],
+  "travel_slope": [
+    "3"
+  ],
+  "wipe": [
+    "1"
+  ],
+  "wipe_distance": [
+    "1"
+  ],
+  "use_firmware_retraction": "0",
+  "use_relative_e_distances": "1",
+  "emit_machine_limits_to_gcode": "0",
+  "machine_max_speed_x": [
+    "250",
+    "250"
+  ],
+  "machine_max_speed_y": [
+    "250",
+    "250"
+  ],
+  "machine_max_speed_z": [
+    "12",
+    "12"
+  ],
+  "machine_max_speed_e": [
+    "25",
+    "25"
+  ],
+  "machine_max_acceleration_x": [
+    "800",
+    "800"
+  ],
+  "machine_max_acceleration_y": [
+    "800",
+    "800"
+  ],
+  "machine_max_acceleration_z": [
+    "50",
+    "50"
+  ],
+  "machine_max_acceleration_e": [
+    "800",
+    "800"
+  ],
+  "machine_max_acceleration_extruding": [
+    "800",
+    "800"
+  ],
+  "machine_max_acceleration_retracting": [
+    "800",
+    "800"
+  ],
+  "machine_max_acceleration_travel": [
+    "800",
+    "800"
+  ],
+  "machine_max_jerk_x": [
+    "5",
+    "5"
+  ],
+  "machine_max_jerk_y": [
+    "5",
+    "5"
+  ],
+  "machine_max_jerk_z": [
+    "0.2",
+    "0.2"
+  ],
+  "machine_max_jerk_e": [
+    "2.5",
+    "2.5"
+  ],
+  "machine_max_junction_deviation": [
+    "0.01"
+  ],
+  "machine_min_extruding_rate": [
+    "0",
+    "0"
+  ],
+  "machine_min_travel_rate": [
+    "0",
+    "0"
+  ],
+  "silent_mode": "0",
+  "machine_start_gcode": "M190 S0\nM109 S0\n_PRINT_START_PHASE_INIT EXTRUDER={first_layer_temperature[initial_tool]} BED=[first_layer_bed_temperature] MESH_MIN={first_layer_print_min[0]},{first_layer_print_min[1]} MESH_MAX={first_layer_print_max[0]},{first_layer_print_max[1]} LAYERS={total_layer_count} NOZZLE_SIZE={nozzle_diameter[0]}\n_PRINT_START_PHASE_PREHEAT\n_PRINT_START_PHASE_PROBING\n_PRINT_START_PHASE_EXTRUDER\n_PRINT_START_PHASE_PURGE",
+  "machine_end_gcode": "PRINT_END",
+  "machine_pause_gcode": "PAUSE",
+  "before_layer_change_gcode": ";BEFORE_LAYER_CHANGE\n;[layer_z]",
+  "layer_change_gcode": ";AFTER_LAYER_CHANGE\n;[layer_z]",
+  "change_filament_gcode": "",
+  "file_start_gcode": "",
+  "time_lapse_gcode": "",
+  "printing_by_object_gcode": "",
+  "template_custom_gcode": "",
+  "manual_filament_change": "0",
+  "single_extruder_multi_material": "0",
+  "enable_filament_ramming": "0",
+  "scan_first_layer": "0",
+  "disable_m73": "0",
+  "auxiliary_fan": "0",
+  "support_air_filtration": "0",
+  "support_chamber_temp_control": "0",
+  "support_parallel_printheads": "0",
+  "parallel_printheads_count": "1",
+  "thumbnails": "48x48/PNG,300x300/PNG",
+  "thumbnails_format": "PNG",
+  "use_3mf": "0",
+  "z_offset": "0"
+}

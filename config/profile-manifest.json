@@ -30,7 +30,7 @@
   },
   "connection": {
     "host_type": "moonraker",
-    "url": "http://192.168.18.152"
+    "url": "192.168.18.152"
   },
   "printer": {
     "name": "Anet ET4 Klipper 0.4",

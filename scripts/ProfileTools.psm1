@@ -126,7 +126,7 @@ function Add-MissingKeyError {
     param(
         [Parameter(Mandatory)][System.Collections.IDictionary]$Profile,
         [Parameter(Mandatory)][string]$Name,
-        [Parameter(Mandatory)][Collections.Generic.List[string]]$Errors
+        [Parameter(Mandatory)][AllowEmptyCollection()][Collections.Generic.List[string]]$Errors
     )
 
     if (-not $Profile.Contains($Name)) {
@@ -142,7 +142,7 @@ function Test-NumericLimit {
         [Parameter(Mandatory)][System.Collections.IDictionary]$Profile,
         [Parameter(Mandatory)][string]$Name,
         [Parameter(Mandatory)][double]$Maximum,
-        [Parameter(Mandatory)][Collections.Generic.List[string]]$Errors,
+        [Parameter(Mandatory)][AllowEmptyCollection()][Collections.Generic.List[string]]$Errors,
         [double]$Minimum = 0
     )
 
@@ -166,7 +166,7 @@ function Test-CompatiblePrinter {
     param(
         [Parameter(Mandatory)][System.Collections.IDictionary]$Profile,
         [Parameter(Mandatory)][System.Collections.IDictionary]$Manifest,
-        [Parameter(Mandatory)][Collections.Generic.List[string]]$Errors
+        [Parameter(Mandatory)][AllowEmptyCollection()][Collections.Generic.List[string]]$Errors
     )
 
     if (Add-MissingKeyError -Profile $Profile -Name 'compatible_printers' -Errors $Errors) {
@@ -244,8 +244,11 @@ function Test-ProfileData {
         if ($Profile.Contains('printable_height') -and [double]$Profile.printable_height -ne [double]$Manifest.firmware.max_printable_z) {
             $errors.Add('Printable height does not match firmware.')
         }
-        if ($Profile.Contains('nozzle_diameter') -and [string](Get-ProfileValues -Profile $Profile -Name 'nozzle_diameter')[0] -ne '0.4') {
-            $errors.Add('Printer profile must use a 0.4 mm nozzle.')
+        if ($Profile.Contains('nozzle_diameter')) {
+            $nozzleValues = @(Get-ProfileValues -Profile $Profile -Name 'nozzle_diameter')
+            if ($nozzleValues.Count -ne 1 -or [string]$nozzleValues[0] -ne '0.4') {
+                $errors.Add('Printer profile must use a 0.4 mm nozzle.')
+            }
         }
         if ($Profile.Contains('emit_machine_limits_to_gcode') -and [string]$Profile.emit_machine_limits_to_gcode -ne '0') {
             $errors.Add('Machine-limit G-code emission must stay disabled.')
@@ -325,7 +328,8 @@ function Test-ProfileData {
         }
 
         if ($Profile.Contains('filament_type')) {
-            $materialType = [string](Get-ProfileValues -Profile $Profile -Name 'filament_type')[0]
+            $materialTypes = @(Get-ProfileValues -Profile $Profile -Name 'filament_type')
+            $materialType = [string]$materialTypes[0]
             if ($materialType -in @('ABS', 'ASA')) {
                 if (-not $Profile.Contains('filament_notes') -or
                     ([string]$Profile.filament_notes).IndexOf('enclosure', [StringComparison]::OrdinalIgnoreCase) -lt 0 -or
@@ -334,10 +338,12 @@ function Test-ProfileData {
                 }
             }
             if ($materialType -eq 'TPU') {
-                if (-not $Profile.Contains('filament_retraction_length') -or [string](Get-ProfileValues -Profile $Profile -Name 'filament_retraction_length')[0] -ne '1') {
+                $retractionLengths = @(Get-ProfileValues -Profile $Profile -Name 'filament_retraction_length')
+                $retractionSpeeds = @(Get-ProfileValues -Profile $Profile -Name 'filament_retraction_speed')
+                if (-not $Profile.Contains('filament_retraction_length') -or $retractionLengths.Count -ne 1 -or [string]$retractionLengths[0] -ne '1') {
                     $errors.Add('TPU retraction length must be 1 mm.')
                 }
-                if (-not $Profile.Contains('filament_retraction_speed') -or [string](Get-ProfileValues -Profile $Profile -Name 'filament_retraction_speed')[0] -ne '15') {
+                if (-not $Profile.Contains('filament_retraction_speed') -or $retractionSpeeds.Count -ne 1 -or [string]$retractionSpeeds[0] -ne '15') {
                     $errors.Add('TPU retraction speed must be 15 mm/s.')
                 }
             }
