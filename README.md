@@ -89,4 +89,3 @@ Documentation Orca officielle :
 
 - [Profils utilisateur](https://github.com/OrcaSlicer/OrcaSlicer/wiki/user_profiles)
 - [Guide de calibration](https://github.com/OrcaSlicer/OrcaSlicer/wiki/calibration_guide)
-

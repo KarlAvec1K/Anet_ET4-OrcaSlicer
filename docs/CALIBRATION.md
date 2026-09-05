@@ -120,4 +120,3 @@ mauvaise hauteur avec un flow artificiellement eleve.
    resultat.
 5. Exporter les presets calibres et conserver l'export avec la date et le lot de
    filament.
-

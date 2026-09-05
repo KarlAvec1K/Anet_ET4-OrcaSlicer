@@ -134,4 +134,3 @@ Copy-Item -LiteralPath 'C:\Users\Karl\Documents\OrcaSlicer-backup-YYYYMMDD-HHMMS
 L'export utilisateur d'origine est aussi conserve, octet pour octet, dans
 `source/Anet ET4.original.orca_printer`. Il sert de reference ou de solution de
 repli, pas de source pour reconstruire le nouveau paquet.
-

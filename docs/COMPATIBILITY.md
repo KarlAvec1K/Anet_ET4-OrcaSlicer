@@ -99,4 +99,3 @@ Un changement de buse, de hotend, d'extrudeur, de capteur Z, de dimensions ou de
 carte controleur exige une nouvelle validation. Une migration vers une carte
 SKR doit utiliser un nouveau profil d'imprimante ou une variante clairement
 nommee; elle ne doit pas remplacer silencieusement ce contrat ET4.
-
