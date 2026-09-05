@@ -75,6 +75,62 @@ function New-OrcaCliProfileCopy {
     return $DestinationPath
 }
 
+function Invoke-OrcaSlice {
+    param(
+        [Parameter(Mandatory)][string]$Executable,
+        [Parameter(Mandatory)][string]$DataDirectory,
+        [Parameter(Mandatory)][string]$OutputDirectory,
+        [Parameter(Mandatory)][string]$PrinterPath,
+        [Parameter(Mandatory)][string]$ProcessPath,
+        [Parameter(Mandatory)][string]$FilamentPath,
+        [Parameter(Mandatory)][string]$FixturePath,
+        [Parameter(Mandatory)][string]$WorkingDirectory
+    )
+
+    [IO.Directory]::CreateDirectory($OutputDirectory) | Out-Null
+    $arguments = @(
+        '--datadir', $DataDirectory,
+        '--load-settings', "$PrinterPath;$ProcessPath",
+        '--load-filaments', $FilamentPath,
+        '--slice', '0',
+        '--outputdir', $OutputDirectory,
+        $FixturePath
+    )
+    $argumentLine = @($arguments | ForEach-Object { ConvertTo-NativeArgument -Value ([string]$_) }) -join ' '
+
+    $startInfo = [Diagnostics.ProcessStartInfo]::new()
+    $startInfo.FileName = $Executable
+    $startInfo.Arguments = $argumentLine
+    $startInfo.WorkingDirectory = $WorkingDirectory
+    $startInfo.UseShellExecute = $false
+    $startInfo.CreateNoWindow = $true
+    $startInfo.RedirectStandardOutput = $true
+    $startInfo.RedirectStandardError = $true
+
+    $orcaProcess = [Diagnostics.Process]::new()
+    $orcaProcess.StartInfo = $startInfo
+    try {
+        if (-not $orcaProcess.Start()) {
+            throw 'OrcaSlicer process did not start.'
+        }
+        $stdoutTask = $orcaProcess.StandardOutput.ReadToEndAsync()
+        $stderrTask = $orcaProcess.StandardError.ReadToEndAsync()
+        if (-not $orcaProcess.WaitForExit(120000)) {
+            $orcaProcess.Kill()
+            throw 'OrcaSlicer smoke test exceeded 120 seconds.'
+        }
+        $orcaProcess.WaitForExit()
+        return [pscustomobject]@{
+            ExitCode = $orcaProcess.ExitCode
+            Stdout = $stdoutTask.Result
+            Stderr = $stderrTask.Result
+        }
+    }
+    finally {
+        $orcaProcess.Dispose()
+    }
+}
+
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $manifestPath = Join-Path $projectRoot 'config\profile-manifest.json'
 $modulePath = Join-Path $projectRoot 'scripts\ProfileTools.psm1'
@@ -115,63 +171,59 @@ $cliProfileDirectory = Join-Path $tempRoot 'profiles'
 
 try {
     $printerPath = Join-Path $projectRoot $manifest.printer.path
-    $processPath = Join-Path $projectRoot $manifest.processes[1].path
-    $filamentPath = Join-Path $projectRoot $manifest.filaments[0].path
     $cliPrinterPath = New-OrcaCliProfileCopy -SourcePath $printerPath -DestinationPath (Join-Path $cliProfileDirectory 'printer.json')
-    $cliProcessPath = New-OrcaCliProfileCopy -SourcePath $processPath -DestinationPath (Join-Path $cliProfileDirectory 'process.json')
-    $cliFilamentPath = New-OrcaCliProfileCopy -SourcePath $filamentPath -DestinationPath (Join-Path $cliProfileDirectory 'filament.json')
-    $stdoutPath = Join-Path $tempRoot 'orca.stdout.log'
-    $stderrPath = Join-Path $tempRoot 'orca.stderr.log'
-    $arguments = @(
-        '--datadir', $dataDirectory,
-        '--load-settings', "$cliPrinterPath;$cliProcessPath",
-        '--load-filaments', $cliFilamentPath,
-        '--slice', '0',
-        '--outputdir', $outputDirectory,
-        $fixturePath
+
+    $cliProcessPaths = @()
+    for ($index = 0; $index -lt $manifest.processes.Count; $index++) {
+        $processPath = Join-Path $projectRoot $manifest.processes[$index].path
+        $destination = Join-Path $cliProfileDirectory ("process-{0:D2}.json" -f $index)
+        $cliProcessPaths += New-OrcaCliProfileCopy -SourcePath $processPath -DestinationPath $destination
+    }
+
+    $cliFilamentPaths = @()
+    for ($index = 0; $index -lt $manifest.filaments.Count; $index++) {
+        $filamentPath = Join-Path $projectRoot $manifest.filaments[$index].path
+        $destination = Join-Path $cliProfileDirectory ("filament-{0:D2}.json" -f $index)
+        $cliFilamentPaths += New-OrcaCliProfileCopy -SourcePath $filamentPath -DestinationPath $destination
+    }
+
+    $sliceCases = @(
+        [pscustomobject]@{ Name = 'production-pla'; ProcessIndex = 1; FilamentIndex = 0; Primary = $true }
     )
-
-    $argumentLine = @($arguments | ForEach-Object { ConvertTo-NativeArgument -Value ([string]$_) }) -join ' '
-    $startInfo = [Diagnostics.ProcessStartInfo]::new()
-    $startInfo.FileName = $orcaExecutable
-    $startInfo.Arguments = $argumentLine
-    $startInfo.WorkingDirectory = $tempRoot
-    $startInfo.UseShellExecute = $false
-    $startInfo.CreateNoWindow = $true
-    $startInfo.RedirectStandardOutput = $true
-    $startInfo.RedirectStandardError = $true
-    $orcaProcess = [Diagnostics.Process]::new()
-    $orcaProcess.StartInfo = $startInfo
-    try {
-        Assert-True $orcaProcess.Start() 'OrcaSlicer process starts'
-        $stdoutTask = $orcaProcess.StandardOutput.ReadToEndAsync()
-        $stderrTask = $orcaProcess.StandardError.ReadToEndAsync()
-        if (-not $orcaProcess.WaitForExit(120000)) {
-            $orcaProcess.Kill()
-            throw 'OrcaSlicer smoke test exceeded 120 seconds.'
+    for ($index = 0; $index -lt $manifest.filaments.Count; $index++) {
+        $sliceCases += [pscustomobject]@{
+            Name = "material-{0:D2}" -f $index
+            ProcessIndex = $index % $manifest.processes.Count
+            FilamentIndex = $index
+            Primary = $false
         }
-        $orcaProcess.WaitForExit()
-        $stdoutText = $stdoutTask.Result
-        $stderrText = $stderrTask.Result
-        [IO.File]::WriteAllText($stdoutPath, $stdoutText, [Text.UTF8Encoding]::new($false))
-        [IO.File]::WriteAllText($stderrPath, $stderrText, [Text.UTF8Encoding]::new($false))
-        $orcaExitCode = $orcaProcess.ExitCode
-    }
-    finally {
-        $orcaProcess.Dispose()
-    }
-    if ($orcaExitCode -ne 0) {
-        throw "OrcaSlicer exited with code $orcaExitCode.`nSTDOUT:`n$stdoutText`nSTDERR:`n$stderrText"
-    }
-    Assert-True $true "OrcaSlicer exits successfully (code $orcaExitCode)"
-
-    $gcodeFiles = @(Get-ChildItem -LiteralPath $outputDirectory -File -Filter '*.gcode')
-    if ($gcodeFiles.Count -ne 1) {
-        $stderr = if (Test-Path -LiteralPath $stderrPath) { [IO.File]::ReadAllText($stderrPath) } else { '' }
-        throw "Expected one G-code file, found $($gcodeFiles.Count). Orca stderr: $stderr"
     }
 
-    $gcodeLines = [IO.File]::ReadAllLines($gcodeFiles[0].FullName)
+    $primaryGcodeFile = $null
+    foreach ($case in $sliceCases) {
+        $caseOutputDirectory = Join-Path $outputDirectory $case.Name
+        $result = Invoke-OrcaSlice `
+            -Executable $orcaExecutable `
+            -DataDirectory $dataDirectory `
+            -OutputDirectory $caseOutputDirectory `
+            -PrinterPath $cliPrinterPath `
+            -ProcessPath $cliProcessPaths[$case.ProcessIndex] `
+            -FilamentPath $cliFilamentPaths[$case.FilamentIndex] `
+            -FixturePath $fixturePath `
+            -WorkingDirectory $tempRoot
+        if ($result.ExitCode -ne 0) {
+            throw "OrcaSlicer case '$($case.Name)' exited with code $($result.ExitCode).`nSTDOUT:`n$($result.Stdout)`nSTDERR:`n$($result.Stderr)"
+        }
+
+        $gcodeFiles = @(Get-ChildItem -LiteralPath $caseOutputDirectory -File -Filter '*.gcode')
+        Assert-True ($gcodeFiles.Count -eq 1) "OrcaSlicer slices case '$($case.Name)'"
+        if ($case.Primary) {
+            $primaryGcodeFile = $gcodeFiles[0]
+        }
+    }
+    Assert-True ($null -ne $primaryGcodeFile) 'Production PLA reference G-code exists'
+
+    $gcodeLines = [IO.File]::ReadAllLines($primaryGcodeFile.FullName)
     $executableLines = Get-ExecutableLines -Lines $gcodeLines
     $phasePatterns = @(
         '^M190 S0$',
@@ -213,7 +265,7 @@ try {
 
     $executableText = $executableLines -join "`n"
     Assert-True ($executableText.IndexOf('192.168.18.152', [StringComparison]::Ordinal) -lt 0) 'Executable G-code contains no Moonraker endpoint'
-    Write-Host "Orca smoke output: $($gcodeFiles[0].FullName)"
+    Write-Host "Orca smoke reference output: $($primaryGcodeFile.FullName)"
 }
 finally {
     $resolvedTemp = [IO.Path]::GetFullPath($tempRoot)
