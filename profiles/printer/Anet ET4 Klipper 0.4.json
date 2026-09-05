@@ -1,10 +1,10 @@
 {
   "type": "machine",
-  "name": "Anet ET4 Klipper 0.4 @codex",
+  "name": "Anet ET4 Klipper 0.4 By Codex",
   "from": "User",
   "version": "2.4.0.1",
   "instantiation": "true",
-  "printer_settings_id": "Anet ET4 Klipper 0.4 @codex",
+  "printer_settings_id": "Anet ET4 Klipper 0.4 By Codex",
   "printer_model": "Anet ET4 Klipper",
   "printer_variant": "0.4",
   "printer_technology": "FFF",
@@ -69,9 +69,9 @@
   "extruder_clearance_height_to_rod": "36",
   "extruder_clearance_height_to_lid": "140",
   "default_filament_profile": [
-    "ET4 Generic PLA @codex"
+    "ET4 Generic PLA By Codex"
   ],
-  "default_print_profile": "ET4 0.20 Production @codex",
+  "default_print_profile": "ET4 0.20 Production By Codex",
   "retraction_length": [
     "2"
   ],

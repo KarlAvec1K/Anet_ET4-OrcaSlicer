@@ -127,9 +127,9 @@ archive:
 {
   "bundle_type": "printer config bundle",
   "filament_config": ["filament/<name>.json"],
-  "printer_config": ["printer/Anet ET4 Klipper 0.4 @codex.json"],
+  "printer_config": ["printer/Anet ET4 Klipper 0.4 By Codex.json"],
   "process_config": ["process/<name>.json"],
-  "printer_preset_name": "Anet ET4 Klipper 0.4 @codex",
+  "printer_preset_name": "Anet ET4 Klipper 0.4 By Codex",
   "version": "02.04.03.00"
 }
 ```
@@ -157,10 +157,10 @@ git commit -m "feat: add deterministic Orca profile builder"
 ### Task 3: Build the firmware-compatible printer preset
 
 **Files:**
-- Create: `profiles/printer/Anet ET4 Klipper 0.4 @codex.json`
+- Create: `profiles/printer/Anet ET4 Klipper 0.4 By Codex.json`
 
 **Interfaces:**
-- Produces: Printer preset named `Anet ET4 Klipper 0.4 @codex`.
+- Produces: Printer preset named `Anet ET4 Klipper 0.4 By Codex`.
 - Consumes: Live Klipper limits captured in the design spec.
 
 - [ ] **Step 1: Keep the printer test RED**
@@ -204,12 +204,12 @@ git commit -m "feat: add Klipper-compatible ET4 printer preset"
 ### Task 4: Add three conservative process presets
 
 **Files:**
-- Create: `profiles/process/ET4 0.16 Quality @codex.json`
-- Create: `profiles/process/ET4 0.20 Production @codex.json`
-- Create: `profiles/process/ET4 0.28 Draft @codex.json`
+- Create: `profiles/process/ET4 0.16 Quality By Codex.json`
+- Create: `profiles/process/ET4 0.20 Production By Codex.json`
+- Create: `profiles/process/ET4 0.28 Draft By Codex.json`
 
 **Interfaces:**
-- Produces: Three process presets compatible with `Anet ET4 Klipper 0.4 @codex`.
+- Produces: Three process presets compatible with `Anet ET4 Klipper 0.4 By Codex`.
 - Consumes: Machine geometry, nozzle size, and acceleration caps from the manifest.
 
 - [ ] **Step 1: Keep the process tests RED**
@@ -238,16 +238,16 @@ git commit -m "feat: add ET4 quality production and draft presets"
 ### Task 5: Add seven material presets
 
 **Files:**
-- Create: `profiles/filament/ET4 Generic PLA @codex.json`
-- Create: `profiles/filament/ET4 Generic PLA+ @codex.json`
-- Create: `profiles/filament/ET4 Silk PLA @codex.json`
-- Create: `profiles/filament/ET4 Generic PETG @codex.json`
-- Create: `profiles/filament/ET4 Generic TPU 95A @codex.json`
-- Create: `profiles/filament/ET4 Generic ABS @codex.json`
-- Create: `profiles/filament/ET4 Generic ASA @codex.json`
+- Create: `profiles/filament/ET4 Generic PLA By Codex.json`
+- Create: `profiles/filament/ET4 Generic PLA+ By Codex.json`
+- Create: `profiles/filament/ET4 Silk PLA By Codex.json`
+- Create: `profiles/filament/ET4 Generic PETG By Codex.json`
+- Create: `profiles/filament/ET4 Generic TPU 95A By Codex.json`
+- Create: `profiles/filament/ET4 Generic ABS By Codex.json`
+- Create: `profiles/filament/ET4 Generic ASA By Codex.json`
 
 **Interfaces:**
-- Produces: Seven filament presets compatible with `Anet ET4 Klipper 0.4 @codex`.
+- Produces: Seven filament presets compatible with `Anet ET4 Klipper 0.4 By Codex`.
 - Consumes: Material temperature, cooling, flow, and operating notes from the design spec.
 
 - [ ] **Step 1: Keep the filament tests RED**
@@ -257,7 +257,7 @@ Run the test runner and confirm it reports seven missing filament files.
 - [ ] **Step 2: Create flattened material profiles**
 
 Use the temperature, maximum volumetric flow, cooling, and safety notes from the
-design. Bind each profile to `Anet ET4 Klipper 0.4 @codex`. Override TPU retraction to
+design. Bind each profile to `Anet ET4 Klipper 0.4 By Codex`. Override TPU retraction to
 1.0 mm at 15 mm/s. Keep the printer's 2.0 mm at 20 mm/s for the other six
 materials.
 
@@ -313,8 +313,8 @@ Invoke the Store executable in a separate instance with Orca's source-defined
 CLI flags:
 
 ```powershell
-orca-slicer.exe --load-settings "profiles/printer/Anet ET4 Klipper 0.4 @codex.json;profiles/process/ET4 0.20 Production @codex.json" `
-  --load-filaments "profiles/filament/ET4 Generic PLA @codex.json" `
+orca-slicer.exe --load-settings "profiles/printer/Anet ET4 Klipper 0.4 By Codex.json;profiles/process/ET4 0.20 Production By Codex.json" `
+  --load-filaments "profiles/filament/ET4 Generic PLA By Codex.json" `
   --slice 0 --outputdir tests/out tests/fixtures/20mm-cube.stl
 ```
 

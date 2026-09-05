@@ -33,50 +33,50 @@
     "url": "192.168.18.152"
   },
   "printer": {
-    "name": "Anet ET4 Klipper 0.4 @codex",
+    "name": "Anet ET4 Klipper 0.4 By Codex",
     "path": "profiles/printer/Anet ET4 Klipper 0.4.json"
   },
   "processes": [
     {
-      "name": "ET4 0.16 Quality @codex",
+      "name": "ET4 0.16 Quality By Codex",
       "path": "profiles/process/ET4 0.16 Quality.json"
     },
     {
-      "name": "ET4 0.20 Production @codex",
+      "name": "ET4 0.20 Production By Codex",
       "path": "profiles/process/ET4 0.20 Production.json"
     },
     {
-      "name": "ET4 0.28 Draft @codex",
+      "name": "ET4 0.28 Draft By Codex",
       "path": "profiles/process/ET4 0.28 Draft.json"
     }
   ],
   "filaments": [
     {
-      "name": "ET4 Generic PLA @codex",
+      "name": "ET4 Generic PLA By Codex",
       "path": "profiles/filament/ET4 Generic PLA.json"
     },
     {
-      "name": "ET4 Generic PLA+ @codex",
+      "name": "ET4 Generic PLA+ By Codex",
       "path": "profiles/filament/ET4 Generic PLA+.json"
     },
     {
-      "name": "ET4 Silk PLA @codex",
+      "name": "ET4 Silk PLA By Codex",
       "path": "profiles/filament/ET4 Silk PLA.json"
     },
     {
-      "name": "ET4 Generic PETG @codex",
+      "name": "ET4 Generic PETG By Codex",
       "path": "profiles/filament/ET4 Generic PETG.json"
     },
     {
-      "name": "ET4 Generic TPU 95A @codex",
+      "name": "ET4 Generic TPU 95A By Codex",
       "path": "profiles/filament/ET4 Generic TPU 95A.json"
     },
     {
-      "name": "ET4 Generic ABS @codex",
+      "name": "ET4 Generic ABS By Codex",
       "path": "profiles/filament/ET4 Generic ABS.json"
     },
     {
-      "name": "ET4 Generic ASA @codex",
+      "name": "ET4 Generic ASA By Codex",
       "path": "profiles/filament/ET4 Generic ASA.json"
     }
   ]

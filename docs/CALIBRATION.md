@@ -13,7 +13,7 @@ et firmware correcte precede toujours les calibrations propres au filament.
    colle seulement comme couche d'adherence ou de separation adaptee au
    materiau.
 4. Confirmer le homing et le capteur Z dans Mainsail avant une impression.
-5. Utiliser le profil `ET4 0.20 Production @codex` pour commencer.
+5. Utiliser le profil `ET4 0.20 Production By Codex` pour commencer.
 
 La macro de depart calcule un mesh adaptatif frais pour la zone imprimee. Elle
 ne repare pas un plateau desserre, un capteur instable ou un mauvais Z-offset.
