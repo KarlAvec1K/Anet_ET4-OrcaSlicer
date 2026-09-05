@@ -467,6 +467,118 @@ function Get-NormalizedJsonText {
     return "$text`n"
 }
 
+function Get-ZipCrc32 {
+    param([Parameter(Mandatory)][byte[]]$Bytes)
+
+    [uint32]$crc = [uint32]::MaxValue
+    [uint32]$polynomial = [Convert]::ToUInt32('EDB88320', 16)
+    foreach ($byte in $Bytes) {
+        $crc = [uint32]($crc -bxor [uint32]$byte)
+        for ($bit = 0; $bit -lt 8; $bit++) {
+            if (($crc -band 1) -ne 0) {
+                $crc = [uint32](($crc -shr 1) -bxor $polynomial)
+            }
+            else {
+                $crc = [uint32]($crc -shr 1)
+            }
+        }
+    }
+    return [uint32]($crc -bxor [uint32]::MaxValue)
+}
+
+function Write-DeterministicZipArchive {
+    param(
+        [Parameter(Mandatory)][System.Collections.IDictionary]$Contents,
+        [Parameter(Mandatory)][string]$Path
+    )
+
+    $entryNames = @($Contents.Keys)
+    [array]::Sort($entryNames, [StringComparer]::Ordinal)
+    if ($entryNames.Count -gt [uint16]::MaxValue) {
+        throw 'ZIP64 output is not supported.'
+    }
+
+    $utf8NoBom = [Text.UTF8Encoding]::new($false)
+    [uint16]$utf8Flag = 0x0800
+    [uint16]$storedMethod = 0
+    [uint16]$dosTime = 0
+    [uint16]$dosDate = ((2026 - 1980) -shl 9) -bor (9 -shl 5) -bor 5
+    $records = [Collections.Generic.List[object]]::new()
+
+    $stream = [IO.File]::Open($Path, [IO.FileMode]::Create, [IO.FileAccess]::Write, [IO.FileShare]::None)
+    $writer = [IO.BinaryWriter]::new($stream, $utf8NoBom, $false)
+    try {
+        foreach ($entryName in $entryNames) {
+            $nameBytes = $utf8NoBom.GetBytes([string]$entryName)
+            $dataBytes = $utf8NoBom.GetBytes([string]$Contents[$entryName])
+            if ($nameBytes.Length -gt [uint16]::MaxValue -or $dataBytes.LongLength -gt [uint32]::MaxValue) {
+                throw "ZIP entry is too large: $entryName"
+            }
+
+            [uint32]$crc = Get-ZipCrc32 -Bytes $dataBytes
+            [uint32]$size = $dataBytes.Length
+            [uint32]$localOffset = $stream.Position
+            $records.Add([pscustomobject]@{
+                NameBytes = $nameBytes
+                DataBytes = $dataBytes
+                Crc = $crc
+                Size = $size
+                LocalOffset = $localOffset
+            })
+
+            $writer.Write([uint32]0x04034B50)
+            $writer.Write([uint16]20)
+            $writer.Write($utf8Flag)
+            $writer.Write($storedMethod)
+            $writer.Write($dosTime)
+            $writer.Write($dosDate)
+            $writer.Write($crc)
+            $writer.Write($size)
+            $writer.Write($size)
+            $writer.Write([uint16]$nameBytes.Length)
+            $writer.Write([uint16]0)
+            $writer.Write($nameBytes)
+            $writer.Write($dataBytes)
+        }
+
+        [uint32]$centralOffset = $stream.Position
+        foreach ($record in $records) {
+            $writer.Write([uint32]0x02014B50)
+            $writer.Write([uint16]20)
+            $writer.Write([uint16]20)
+            $writer.Write($utf8Flag)
+            $writer.Write($storedMethod)
+            $writer.Write($dosTime)
+            $writer.Write($dosDate)
+            $writer.Write([uint32]$record.Crc)
+            $writer.Write([uint32]$record.Size)
+            $writer.Write([uint32]$record.Size)
+            $writer.Write([uint16]$record.NameBytes.Length)
+            $writer.Write([uint16]0)
+            $writer.Write([uint16]0)
+            $writer.Write([uint16]0)
+            $writer.Write([uint16]0)
+            $writer.Write([uint32]0)
+            $writer.Write([uint32]$record.LocalOffset)
+            $writer.Write([byte[]]$record.NameBytes)
+        }
+
+        [uint32]$centralSize = $stream.Position - $centralOffset
+        $writer.Write([uint32]0x06054B50)
+        $writer.Write([uint16]0)
+        $writer.Write([uint16]0)
+        $writer.Write([uint16]$records.Count)
+        $writer.Write([uint16]$records.Count)
+        $writer.Write($centralSize)
+        $writer.Write($centralOffset)
+        $writer.Write([uint16]0)
+        $writer.Flush()
+    }
+    finally {
+        $writer.Dispose()
+    }
+}
+
 function New-OrcaProfileBundle {
     [CmdletBinding()]
     param(
@@ -498,7 +610,7 @@ function New-OrcaProfileBundle {
     }
 
     $contents = @{}
-    $bundleJson = $bundleManifest | ConvertTo-Json -Depth 20
+    $bundleJson = $bundleManifest | ConvertTo-Json -Depth 20 -Compress
     $contents['bundle_structure.json'] = $bundleJson.Replace("`r`n", "`n").TrimEnd() + "`n"
     $contents[$printerEntry] = Get-NormalizedJsonText -Path (Resolve-ProfileProjectPath -ProjectRoot $ProjectRoot -RelativePath ([string]$manifest.printer.path))
     foreach ($entry in $manifest.processes) {
@@ -512,35 +624,7 @@ function New-OrcaProfileBundle {
 
     $resolvedOutput = [IO.Path]::GetFullPath($OutputPath)
     [IO.Directory]::CreateDirectory((Split-Path -Parent $resolvedOutput)) | Out-Null
-    Add-Type -AssemblyName System.IO.Compression
-    Add-Type -AssemblyName System.IO.Compression.FileSystem
-    $fileStream = [IO.File]::Open($resolvedOutput, [IO.FileMode]::Create, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
-    try {
-        $archive = [IO.Compression.ZipArchive]::new($fileStream, [IO.Compression.ZipArchiveMode]::Create, $false)
-        try {
-            $entryNames = @($contents.Keys)
-            [array]::Sort($entryNames, [StringComparer]::Ordinal)
-            $fixedTimestamp = [DateTimeOffset]::new(2026, 9, 5, 0, 0, 0, [TimeSpan]::Zero)
-            $utf8NoBom = [Text.UTF8Encoding]::new($false)
-            foreach ($entryName in $entryNames) {
-                $zipEntry = $archive.CreateEntry($entryName, [IO.Compression.CompressionLevel]::Optimal)
-                $zipEntry.LastWriteTime = $fixedTimestamp
-                $writer = [IO.StreamWriter]::new($zipEntry.Open(), $utf8NoBom)
-                try {
-                    $writer.Write([string]$contents[$entryName])
-                }
-                finally {
-                    $writer.Dispose()
-                }
-            }
-        }
-        finally {
-            $archive.Dispose()
-        }
-    }
-    finally {
-        $fileStream.Dispose()
-    }
+    Write-DeterministicZipArchive -Contents $contents -Path $resolvedOutput
 
     return $resolvedOutput
 }

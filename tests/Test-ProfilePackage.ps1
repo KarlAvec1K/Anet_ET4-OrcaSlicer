@@ -206,6 +206,16 @@ try {
     $secondHash = (Get-FileHash -LiteralPath $secondArchive -Algorithm SHA256).Hash
     Assert-Equal $firstHash $secondHash 'Deterministic archive output'
 
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    $archive = [IO.Compression.ZipFile]::OpenRead($firstArchive)
+    try {
+        $nonStoredEntries = @($archive.Entries | Where-Object { $_.CompressedLength -ne $_.Length })
+        Assert-Equal 0 $nonStoredEntries.Count 'Archive uses runtime-independent stored entries'
+    }
+    finally {
+        $archive.Dispose()
+    }
+
     $bundleResult = Test-OrcaProfileBundle -Path $firstArchive -Manifest $manifest
     foreach ($errorMessage in $bundleResult.Errors) {
         Write-Host "BUNDLE: $errorMessage" -ForegroundColor Red
