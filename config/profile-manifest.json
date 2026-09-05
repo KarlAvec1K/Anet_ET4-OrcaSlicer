@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "package": {
+    "name": "Anet ET4 Klipper Production Profiles",
+    "build_date": "2026-09-05",
+    "output_file": "dist/Anet_ET4_Klipper_Production.orca_printer",
+    "bundle_id": "anet-et4-klipper-production-2026-09-05",
+    "bundle_version": "02.04.03.00"
+  },
+  "orca": {
+    "minimum_version": "2.4.3",
+    "profile_version": "2.4.0.1"
+  },
+  "firmware": {
+    "kinematics": "cartesian",
+    "max_printable_x": 220,
+    "max_printable_y": 220,
+    "max_printable_z": 250,
+    "max_velocity": 250,
+    "max_acceleration": 800,
+    "max_z_velocity": 12,
+    "max_z_acceleration": 50,
+    "square_corner_velocity": 5,
+    "max_hotend_temperature": 260,
+    "max_bed_temperature": 125
+  },
+  "profile_limits": {
+    "max_hotend_temperature": 250,
+    "max_bed_temperature": 100
+  },
+  "connection": {
+    "host_type": "moonraker",
+    "url": "http://192.168.18.152"
+  },
+  "printer": {
+    "name": "Anet ET4 Klipper 0.4",
+    "path": "profiles/printer/Anet ET4 Klipper 0.4.json"
+  },
+  "processes": [
+    {
+      "name": "ET4 0.16 Quality",
+      "path": "profiles/process/ET4 0.16 Quality.json"
+    },
+    {
+      "name": "ET4 0.20 Production",
+      "path": "profiles/process/ET4 0.20 Production.json"
+    },
+    {
+      "name": "ET4 0.28 Draft",
+      "path": "profiles/process/ET4 0.28 Draft.json"
+    }
+  ],
+  "filaments": [
+    {
+      "name": "ET4 Generic PLA",
+      "path": "profiles/filament/ET4 Generic PLA.json"
+    },
+    {
+      "name": "ET4 Generic PLA+",
+      "path": "profiles/filament/ET4 Generic PLA+.json"
+    },
+    {
+      "name": "ET4 Silk PLA",
+      "path": "profiles/filament/ET4 Silk PLA.json"
+    },
+    {
+      "name": "ET4 Generic PETG",
+      "path": "profiles/filament/ET4 Generic PETG.json"
+    },
+    {
+      "name": "ET4 Generic TPU 95A",
+      "path": "profiles/filament/ET4 Generic TPU 95A.json"
+    },
+    {
+      "name": "ET4 Generic ABS",
+      "path": "profiles/filament/ET4 Generic ABS.json"
+    },
+    {
+      "name": "ET4 Generic ASA",
+      "path": "profiles/filament/ET4 Generic ASA.json"
+    }
+  ]
+}
