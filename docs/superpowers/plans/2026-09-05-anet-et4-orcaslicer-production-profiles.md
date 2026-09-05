@@ -313,8 +313,7 @@ Invoke the Store executable in a separate instance with Orca's source-defined
 CLI flags:
 
 ```powershell
-orca-slicer.exe --no-single-instance `
-  --load-settings "profiles/printer/Anet ET4 Klipper 0.4.json;profiles/process/ET4 0.20 Production.json" `
+orca-slicer.exe --load-settings "profiles/printer/Anet ET4 Klipper 0.4.json;profiles/process/ET4 0.20 Production.json" `
   --load-filaments "profiles/filament/ET4 Generic PLA.json" `
   --slice 0 --outputdir tests/out tests/fixtures/20mm-cube.stl
 ```
