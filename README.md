@@ -17,8 +17,8 @@ n'est envoyee a l'imprimante.
 2. Ouvrir OrcaSlicer 2.4.3 ou une version plus recente.
 3. Utiliser `File > Import > Import Configs` et choisir le fichier du dossier
    `dist`.
-4. Choisir `Anet ET4 Klipper 0.4` comme imprimante.
-5. Choisir `ET4 0.20 Production` et le filament correspondant a la bobine.
+4. Choisir `Anet ET4 Klipper 0.4 @codex` comme imprimante.
+5. Choisir `ET4 0.20 Production @codex` et le filament correspondant a la bobine.
 6. Trancher, inspecter l'apercu, puis envoyer le fichier seulement apres cette
    verification.
 
@@ -27,14 +27,14 @@ Les instructions detaillees, la sauvegarde et la restauration se trouvent dans
 
 ## Contenu du paquet
 
-- Imprimante : `Anet ET4 Klipper 0.4`.
-- Processus : `ET4 0.16 Quality`, `ET4 0.20 Production`, `ET4 0.28 Draft`.
+- Imprimante : `Anet ET4 Klipper 0.4 @codex`.
+- Processus : `ET4 0.16 Quality @codex`, `ET4 0.20 Production @codex`, `ET4 0.28 Draft @codex`.
 - Filaments : PLA, PLA+, Silk PLA, PETG, TPU 95A, ABS et ASA generiques.
 - Demarrage : chauffe, homing, mesh adaptatif et purge geres par les macros
   Klipper en phases.
 - Fin : `PRINT_END`, avec retract, levee et stationnement geres par Klipper.
 
-`ET4 0.20 Production` est le point de depart recommande. Les valeurs filament
+`ET4 0.20 Production @codex` est le point de depart recommande. Les valeurs filament
 sont prudentes, mais une calibration par bobine reste necessaire avant la
 production.
 

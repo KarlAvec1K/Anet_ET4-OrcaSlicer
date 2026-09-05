@@ -1,11 +1,11 @@
 {
   "type": "filament",
-  "name": "ET4 Generic TPU 95A",
+  "name": "ET4 Generic TPU 95A @codex",
   "from": "User",
   "version": "2.4.0.1",
   "instantiation": "true",
-  "filament_settings_id": ["ET4 Generic TPU 95A"],
-  "compatible_printers": ["Anet ET4 Klipper 0.4"],
+  "filament_settings_id": ["ET4 Generic TPU 95A @codex"],
+  "compatible_printers": ["Anet ET4 Klipper 0.4 @codex"],
   "filament_vendor": ["Generic"],
   "filament_type": ["TPU"],
   "filament_diameter": ["1.75"],
@@ -51,6 +51,6 @@
   "activate_air_filtration": ["0"],
   "chamber_temperatures": ["0"],
   "filament_notes": "Conservative TPU 95A baseline for the ET4 dual-drive Bowden path. Keep the path constrained, dry the spool, print slowly, and calibrate flow and retraction before production.",
-  "filament_start_gcode": ["; ET4 Generic TPU 95A"],
-  "filament_end_gcode": ["; ET4 Generic TPU 95A end"]
+  "filament_start_gcode": ["; ET4 Generic TPU 95A @codex"],
+  "filament_end_gcode": ["; ET4 Generic TPU 95A @codex end"]
 }

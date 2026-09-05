@@ -51,9 +51,9 @@ Choisir ces trois elements dans la vue `Prepare` :
 
 | Type | Choix initial |
 | --- | --- |
-| Imprimante | `Anet ET4 Klipper 0.4` |
-| Processus | `ET4 0.20 Production` |
-| Filament | `ET4 Generic PLA` ou le materiau reel |
+| Imprimante | `Anet ET4 Klipper 0.4 @codex` |
+| Processus | `ET4 0.20 Production @codex` |
+| Filament | `ET4 Generic PLA @codex` ou le materiau reel |
 | Plateau | `Textured PEI Plate` ou le type donnant acces a la temperature configuree |
 
 Le nom de plateau dans Orca ne change pas la surface physique. Le profil donne
@@ -76,7 +76,7 @@ commande executee par Klipper.
 ## Verification avant le premier envoi
 
 1. Charger un petit modele connu.
-2. Trancher avec `ET4 0.20 Production`.
+2. Trancher avec `ET4 0.20 Production @codex`.
 3. Inspecter l'apercu couche par couche, surtout la premiere couche, les
    supports, les deplacements et la position dans le volume 220 x 220 x 250 mm.
 4. Verifier que les temperatures correspondent au filament reel.

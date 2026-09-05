@@ -1,11 +1,11 @@
 {
   "type": "filament",
-  "name": "ET4 Generic PLA",
+  "name": "ET4 Generic PLA @codex",
   "from": "User",
   "version": "2.4.0.1",
   "instantiation": "true",
-  "filament_settings_id": ["ET4 Generic PLA"],
-  "compatible_printers": ["Anet ET4 Klipper 0.4"],
+  "filament_settings_id": ["ET4 Generic PLA @codex"],
+  "compatible_printers": ["Anet ET4 Klipper 0.4 @codex"],
   "filament_vendor": ["Generic"],
   "filament_type": ["PLA"],
   "filament_diameter": ["1.75"],
@@ -50,6 +50,6 @@
   "activate_air_filtration": ["0"],
   "chamber_temperatures": ["0"],
   "filament_notes": "Conservative generic PLA baseline for the Anet ET4. Calibrate nozzle temperature, flow ratio, pressure advance, and maximum volumetric speed for each spool.",
-  "filament_start_gcode": ["; ET4 Generic PLA"],
-  "filament_end_gcode": ["; ET4 Generic PLA end"]
+  "filament_start_gcode": ["; ET4 Generic PLA @codex"],
+  "filament_end_gcode": ["; ET4 Generic PLA @codex end"]
 }

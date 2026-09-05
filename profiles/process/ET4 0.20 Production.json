@@ -1,12 +1,12 @@
 {
   "type": "process",
-  "name": "ET4 0.20 Production",
+  "name": "ET4 0.20 Production @codex",
   "from": "User",
   "version": "2.4.0.1",
   "instantiation": "true",
-  "print_settings_id": "ET4 0.20 Production",
+  "print_settings_id": "ET4 0.20 Production @codex",
   "compatible_printers": [
-    "Anet ET4 Klipper 0.4"
+    "Anet ET4 Klipper 0.4 @codex"
   ],
   "compatible_printers_condition": "",
   "layer_height": "0.2",

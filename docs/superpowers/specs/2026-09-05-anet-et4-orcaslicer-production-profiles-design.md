@@ -72,7 +72,7 @@ files. The validation script checks source files and the rebuilt archive.
 
 ## Printer Profile
 
-The printer preset will use the name `Anet ET4 Klipper 0.4`. It will contain a
+The printer preset will use the name `Anet ET4 Klipper 0.4 @codex`. It will contain a
 complete setting set and will not inherit from `MyKlipper` or another user
 preset. Stable Orca defaults may remain explicit in the flattened profile.
 
@@ -127,9 +127,9 @@ will keep Z hop and retract active between separate objects.
 
 | Preset | Layer | Outer wall | Inner wall | Sparse infill | Travel | Main acceleration |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| ET4 0.16 Quality | 0.16 mm | 30 mm/s | 45 mm/s | 55 mm/s | 150 mm/s | 600 mm/s2 |
-| ET4 0.20 Production | 0.20 mm | 35 mm/s | 50 mm/s | 60 mm/s | 160 mm/s | 700 mm/s2 |
-| ET4 0.28 Draft | 0.28 mm | 40 mm/s | 60 mm/s | 70 mm/s | 180 mm/s | 750 mm/s2 |
+| ET4 0.16 Quality @codex | 0.16 mm | 30 mm/s | 45 mm/s | 55 mm/s | 150 mm/s | 600 mm/s2 |
+| ET4 0.20 Production @codex | 0.20 mm | 35 mm/s | 50 mm/s | 60 mm/s | 160 mm/s | 700 mm/s2 |
+| ET4 0.28 Draft @codex | 0.28 mm | 40 mm/s | 60 mm/s | 70 mm/s | 180 mm/s | 750 mm/s2 |
 
 Each preset will use 300 mm/s2 for the first layer and no more than 550 mm/s2
 for external walls. Material maximum volumetric flow will reduce speed when a
@@ -148,13 +148,13 @@ calibrations for each physical spool before treating the values as final.
 
 | Preset | Nozzle first/rest | Bed first/rest | Max flow | Part cooling | Operating note |
 | --- | ---: | ---: | ---: | --- | --- |
-| ET4 Generic PLA | 215/210 C | 60/55 C | 8.0 mm3/s | 0 then 100 percent | Open printer |
-| ET4 Generic PLA+ | 220/215 C | 60/55 C | 7.0 mm3/s | 0 then 100 percent | Open printer |
-| ET4 Silk PLA | 215/210 C | 60/55 C | 5.5 mm3/s | 0 then 100 percent | Eryone Silk starting point |
-| ET4 Generic PETG | 240/235 C | 80/75 C | 6.0 mm3/s | 0 then 30 percent | Dry filament recommended |
-| ET4 Generic TPU 95A | 220/215 C | 50/45 C | 2.5 mm3/s | 0 then 60 percent | Slow feed, 1 mm retraction |
-| ET4 Generic ABS | 245/240 C | 100/95 C | 6.0 mm3/s | 0 percent, bridge only | Enclosure and room ventilation required |
-| ET4 Generic ASA | 250/245 C | 100/95 C | 5.5 mm3/s | 0 percent, bridge only | Enclosure and room ventilation required |
+| ET4 Generic PLA @codex | 215/210 C | 60/55 C | 8.0 mm3/s | 0 then 100 percent | Open printer |
+| ET4 Generic PLA+ @codex | 220/215 C | 60/55 C | 7.0 mm3/s | 0 then 100 percent | Open printer |
+| ET4 Silk PLA @codex | 215/210 C | 60/55 C | 5.5 mm3/s | 0 then 100 percent | Eryone Silk starting point |
+| ET4 Generic PETG @codex | 240/235 C | 80/75 C | 6.0 mm3/s | 0 then 30 percent | Dry filament recommended |
+| ET4 Generic TPU 95A @codex | 220/215 C | 50/45 C | 2.5 mm3/s | 0 then 60 percent | Slow feed, 1 mm retraction |
+| ET4 Generic ABS @codex | 245/240 C | 100/95 C | 6.0 mm3/s | 0 percent, bridge only | Enclosure and room ventilation required |
+| ET4 Generic ASA @codex | 250/245 C | 100/95 C | 5.5 mm3/s | 0 percent, bridge only | Enclosure and room ventilation required |
 
 The package will exclude polycarbonate, nylon, PPS, PEEK, and other materials
 that need hotend temperatures near or above the ET4 firmware limit. The

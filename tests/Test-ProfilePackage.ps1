@@ -123,7 +123,7 @@ Assert-Equal 7 $result.FilamentCount 'Filament preset count'
 
 $printerPath = Join-Path $projectRoot $manifest.printer.path
 $printer = Read-ProfileJson -Path $printerPath
-Assert-Equal 'Anet ET4 Klipper 0.4' $printer.name 'Portable printer preset name'
+Assert-Equal 'Anet ET4 Klipper 0.4 @codex' $printer.name 'Portable printer preset name'
 Assert-True (-not $printer.ContainsKey('inherits')) 'Printer has no user-profile dependency'
 Assert-Equal '0' $printer.emit_machine_limits_to_gcode 'Slicer does not emit firmware limits'
 Assert-Equal '0' $printer.use_firmware_retraction 'Slicer-managed retraction is enabled'
@@ -149,9 +149,9 @@ foreach ($phase in $startPhases) {
 Assert-Equal 'PRINT_END' $printer.machine_end_gcode.Trim() 'End G-code delegates to PRINT_END'
 
 $processExpectations = @{
-    'ET4 0.16 Quality' = @{ layer = '0.16'; outer = '30'; inner = '45'; infill = '55'; travel = '150'; accel = '600' }
-    'ET4 0.20 Production' = @{ layer = '0.2'; outer = '35'; inner = '50'; infill = '60'; travel = '160'; accel = '700' }
-    'ET4 0.28 Draft' = @{ layer = '0.28'; outer = '40'; inner = '60'; infill = '70'; travel = '180'; accel = '750' }
+    'ET4 0.16 Quality @codex' = @{ layer = '0.16'; outer = '30'; inner = '45'; infill = '55'; travel = '150'; accel = '600' }
+    'ET4 0.20 Production @codex' = @{ layer = '0.2'; outer = '35'; inner = '50'; infill = '60'; travel = '160'; accel = '700' }
+    'ET4 0.28 Draft @codex' = @{ layer = '0.28'; outer = '40'; inner = '60'; infill = '70'; travel = '180'; accel = '750' }
 }
 foreach ($processEntry in $manifest.processes) {
     $process = Read-ProfileJson -Path (Join-Path $projectRoot $processEntry.path)
@@ -173,13 +173,13 @@ foreach ($processEntry in $manifest.processes) {
 }
 
 $filamentExpectations = @{
-    'ET4 Generic PLA' = @{ nozzle = '210'; firstNozzle = '215'; bed = '55'; firstBed = '60'; mvs = '8'; type = 'PLA' }
-    'ET4 Generic PLA+' = @{ nozzle = '215'; firstNozzle = '220'; bed = '55'; firstBed = '60'; mvs = '7'; type = 'PLA' }
-    'ET4 Silk PLA' = @{ nozzle = '210'; firstNozzle = '215'; bed = '55'; firstBed = '60'; mvs = '5.5'; type = 'PLA' }
-    'ET4 Generic PETG' = @{ nozzle = '235'; firstNozzle = '240'; bed = '75'; firstBed = '80'; mvs = '6'; type = 'PETG' }
-    'ET4 Generic TPU 95A' = @{ nozzle = '215'; firstNozzle = '220'; bed = '45'; firstBed = '50'; mvs = '2.5'; type = 'TPU' }
-    'ET4 Generic ABS' = @{ nozzle = '240'; firstNozzle = '245'; bed = '95'; firstBed = '100'; mvs = '6'; type = 'ABS' }
-    'ET4 Generic ASA' = @{ nozzle = '245'; firstNozzle = '250'; bed = '95'; firstBed = '100'; mvs = '5.5'; type = 'ASA' }
+    'ET4 Generic PLA @codex' = @{ nozzle = '210'; firstNozzle = '215'; bed = '55'; firstBed = '60'; mvs = '8'; type = 'PLA' }
+    'ET4 Generic PLA+ @codex' = @{ nozzle = '215'; firstNozzle = '220'; bed = '55'; firstBed = '60'; mvs = '7'; type = 'PLA' }
+    'ET4 Silk PLA @codex' = @{ nozzle = '210'; firstNozzle = '215'; bed = '55'; firstBed = '60'; mvs = '5.5'; type = 'PLA' }
+    'ET4 Generic PETG @codex' = @{ nozzle = '235'; firstNozzle = '240'; bed = '75'; firstBed = '80'; mvs = '6'; type = 'PETG' }
+    'ET4 Generic TPU 95A @codex' = @{ nozzle = '215'; firstNozzle = '220'; bed = '45'; firstBed = '50'; mvs = '2.5'; type = 'TPU' }
+    'ET4 Generic ABS @codex' = @{ nozzle = '240'; firstNozzle = '245'; bed = '95'; firstBed = '100'; mvs = '6'; type = 'ABS' }
+    'ET4 Generic ASA @codex' = @{ nozzle = '245'; firstNozzle = '250'; bed = '95'; firstBed = '100'; mvs = '5.5'; type = 'ASA' }
 }
 foreach ($filamentEntry in $manifest.filaments) {
     $filament = Read-ProfileJson -Path (Join-Path $projectRoot $filamentEntry.path)

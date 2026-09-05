@@ -1,11 +1,11 @@
 {
   "type": "filament",
-  "name": "ET4 Silk PLA",
+  "name": "ET4 Silk PLA @codex",
   "from": "User",
   "version": "2.4.0.1",
   "instantiation": "true",
-  "filament_settings_id": ["ET4 Silk PLA"],
-  "compatible_printers": ["Anet ET4 Klipper 0.4"],
+  "filament_settings_id": ["ET4 Silk PLA @codex"],
+  "compatible_printers": ["Anet ET4 Klipper 0.4 @codex"],
   "filament_vendor": ["Generic"],
   "filament_type": ["PLA"],
   "filament_diameter": ["1.75"],
@@ -50,6 +50,6 @@
   "activate_air_filtration": ["0"],
   "chamber_temperatures": ["0"],
   "filament_notes": "Conservative silk PLA baseline, including Eryone Silk PLA Rainbow. The lower volumetric limit protects surface gloss and inter-layer consistency. Calibrate each spool before production.",
-  "filament_start_gcode": ["; ET4 Silk PLA"],
-  "filament_end_gcode": ["; ET4 Silk PLA end"]
+  "filament_start_gcode": ["; ET4 Silk PLA @codex"],
+  "filament_end_gcode": ["; ET4 Silk PLA @codex end"]
 }

@@ -1,11 +1,11 @@
 {
   "type": "filament",
-  "name": "ET4 Generic ABS",
+  "name": "ET4 Generic ABS @codex",
   "from": "User",
   "version": "2.4.0.1",
   "instantiation": "true",
-  "filament_settings_id": ["ET4 Generic ABS"],
-  "compatible_printers": ["Anet ET4 Klipper 0.4"],
+  "filament_settings_id": ["ET4 Generic ABS @codex"],
+  "compatible_printers": ["Anet ET4 Klipper 0.4 @codex"],
   "filament_vendor": ["Generic"],
   "filament_type": ["ABS"],
   "filament_diameter": ["1.75"],
@@ -50,6 +50,6 @@
   "activate_air_filtration": ["0"],
   "chamber_temperatures": ["0"],
   "filament_notes": "ABS requires a completed enclosure and reliable room ventilation. Confirm that every hotend component, especially any PTFE liner, is rated for the selected temperature. Calibrate each spool before production.",
-  "filament_start_gcode": ["; ET4 Generic ABS - enclosure and room ventilation required"],
-  "filament_end_gcode": ["; ET4 Generic ABS end"]
+  "filament_start_gcode": ["; ET4 Generic ABS @codex - enclosure and room ventilation required"],
+  "filament_end_gcode": ["; ET4 Generic ABS @codex end"]
 }

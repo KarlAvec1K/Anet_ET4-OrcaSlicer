@@ -2,7 +2,7 @@
 
 ## 2026-09-05 - Production profile bundle 1
 
-- Ajout du profil `Anet ET4 Klipper 0.4` compatible avec le contrat Klipper
+- Ajout du profil `Anet ET4 Klipper 0.4 @codex` compatible avec le contrat Klipper
   valide sur le mini-PC Debian 13.
 - Ajout des processus 0.16 Quality, 0.20 Production et 0.28 Draft.
 - Ajout des bases PLA, PLA+, Silk PLA, PETG, TPU 95A, ABS et ASA.
