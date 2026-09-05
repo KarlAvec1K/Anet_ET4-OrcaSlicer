@@ -1,0 +1,170 @@
+solid ET4_Retraction_Travel_Test
+  facet normal 0 0 0
+    outer loop
+      vertex 75 100 0
+      vertex 85 110 0
+      vertex 85 100 0
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 75 100 0
+      vertex 75 110 0
+      vertex 85 110 0
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 75 100 30
+      vertex 85 100 30
+      vertex 85 110 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 75 100 30
+      vertex 85 110 30
+      vertex 75 110 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 75 100 0
+      vertex 85 100 0
+      vertex 85 100 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 75 100 0
+      vertex 85 100 30
+      vertex 75 100 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 85 100 0
+      vertex 85 110 0
+      vertex 85 110 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 85 100 0
+      vertex 85 110 30
+      vertex 85 100 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 85 110 0
+      vertex 75 110 0
+      vertex 75 110 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 85 110 0
+      vertex 75 110 30
+      vertex 85 110 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 75 110 0
+      vertex 75 100 0
+      vertex 75 100 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 75 110 0
+      vertex 75 100 30
+      vertex 75 110 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 135 100 0
+      vertex 145 110 0
+      vertex 145 100 0
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 135 100 0
+      vertex 135 110 0
+      vertex 145 110 0
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 135 100 30
+      vertex 145 100 30
+      vertex 145 110 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 135 100 30
+      vertex 145 110 30
+      vertex 135 110 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 135 100 0
+      vertex 145 100 0
+      vertex 145 100 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 135 100 0
+      vertex 145 100 30
+      vertex 135 100 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 145 100 0
+      vertex 145 110 0
+      vertex 145 110 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 145 100 0
+      vertex 145 110 30
+      vertex 145 100 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 145 110 0
+      vertex 135 110 0
+      vertex 135 110 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 145 110 0
+      vertex 135 110 30
+      vertex 145 110 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 135 110 0
+      vertex 135 100 0
+      vertex 135 100 30
+    endloop
+  endfacet
+  facet normal 0 0 0
+    outer loop
+      vertex 135 110 0
+      vertex 135 100 30
+      vertex 135 110 30
+    endloop
+  endfacet
+endsolid ET4_Retraction_Travel_Test
