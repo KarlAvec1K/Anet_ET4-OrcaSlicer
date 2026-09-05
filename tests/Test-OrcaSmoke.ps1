@@ -249,12 +249,21 @@ try {
     $gcodeText = $gcodeLines -join "`n"
     Assert-True ($gcodeText -match '(?m)^;\s*nozzle_diameter\s*=\s*0\.4(?:\D|$)') 'Generated G-code records a 0.4 mm nozzle'
 
-    foreach ($line in $executableLines) {
+    for ($lineIndex = 0; $lineIndex -lt $executableLines.Count; $lineIndex++) {
+        $line = $executableLines[$lineIndex]
         if ($line -match '^M10[49]\s+S(\d+(?:\.\d+)?)') {
-            Assert-True ([double]$Matches[1] -le [double]$manifest.profile_limits.max_hotend_temperature) "Hotend command stays within profile limit: $line"
+            $temperature = [double]$Matches[1]
+            Assert-True ($temperature -le [double]$manifest.profile_limits.max_hotend_temperature) "Hotend command stays within profile limit: $line"
+            if ($temperature -gt 0) {
+                Assert-True ($lineIndex -gt $lastIndex) "Non-zero hotend command follows phased startup: $line"
+            }
         }
         if ($line -match '^M1(?:40|90)\s+S(\d+(?:\.\d+)?)') {
-            Assert-True ([double]$Matches[1] -le [double]$manifest.profile_limits.max_bed_temperature) "Bed command stays within profile limit: $line"
+            $temperature = [double]$Matches[1]
+            Assert-True ($temperature -le [double]$manifest.profile_limits.max_bed_temperature) "Bed command stays within profile limit: $line"
+            if ($temperature -gt 0) {
+                Assert-True ($lineIndex -gt $lastIndex) "Non-zero bed command follows phased startup: $line"
+            }
         }
         if ($line -match '^M204(?:\s+[SPRT]\d+(?:\.\d+)?)+') {
             foreach ($match in [regex]::Matches($line, '[SPRT](\d+(?:\.\d+)?)')) {
